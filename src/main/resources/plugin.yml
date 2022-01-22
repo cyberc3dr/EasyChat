@@ -1,0 +1,21 @@
+name: EzChat
+version: '${project.version}'
+main: ru.sliva.ezchat.EzChat
+api-version: 1.13
+load: STARTUP
+depend: [LuckPerms]
+authors: [ sliva_ru ]
+description: Eazy chat for servers.
+website: https://github.com/Geo3gamer/EzChat
+commands:
+  ezchat:
+    description: 'Reloads configuration'
+    permission: 'ezchat.ezchat'
+    usage: '/ezchat'
+permissions:
+  ezchat.color:
+    description: 'Colors the chat message'
+    default: 'op'
+  ezchat.ezchat:
+    description: 'Give access to reload command'
+    default: 'op'

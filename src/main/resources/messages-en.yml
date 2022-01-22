@@ -1,0 +1,9 @@
+hover-events:
+  tell-message: '&fSend {player} &fa message'
+  copy-message: '&fCopy chat message'
+messages:
+  join: '&f{player} &ajoined the game.'
+  quit: '&f{player} &eleft the game.'
+  nobody-heard: '&cNobody heard you.'
+commands:
+  reload: '&aConfiguration reloaded'

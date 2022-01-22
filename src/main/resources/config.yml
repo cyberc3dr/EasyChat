@@ -1,0 +1,26 @@
+parameters:
+  # Should we change the display name
+  # or another plugin will change it
+  change-display-name: true
+  # Should we change the player list name
+  # or another plugin will change it
+  change-tab-list-name: false
+  # Should we change the join and quit messages
+  change-player-messages: false
+  # Should the chat be local and global or not
+  range-mode: true
+  # Should we check only world in range mode
+  # if true range will spread all over the world
+  only-per-world: false
+  # Range for range-mode chat
+  range: 10000
+  # Locale (ru, en)
+  locale: en
+format:
+  # Chat settings for range-mode
+  global-chat: '&6[G] &r'
+  local-chat: '&a[L] &r'
+  # Chat format
+  format: '&f{player} &8»&7 {message}'
+  # Patterns for chat filtering
+  patterns: []

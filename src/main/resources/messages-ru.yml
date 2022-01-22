@@ -1,0 +1,9 @@
+hover-events:
+  tell-message: '&fОтправить {player} &fсообщение'
+  copy-message: '&fСкопировать сообщение чата'
+messages:
+  join: '&f{player} &aприсоединился к игре.'
+  quit: '&f{player} &eпокинул игру.'
+  nobody-heard: '&cВас никто не услышал.'
+commands:
+  reload: '&aКонфигурация перезагружена'
