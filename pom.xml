@@ -19,7 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <url>https://github.com/Geo3gamer/EzChat</url>
+    <url>https://github.com/Geo3gamer/EasyChat</url>
 
     <build>
         <defaultGoal>clean package</defaultGoal>
