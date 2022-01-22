@@ -75,7 +75,7 @@ public final class LegacyPlatform implements Platform {
                         }
                     }
                 }
-                if(viewers.size() == 1) {
+                if(viewers.size() == 1 && Bukkit.getOnlinePlayers().size() > 1) {
                     audience.sendMessage(Messages.nobodyHeard.getComponent());
                 }
             }
