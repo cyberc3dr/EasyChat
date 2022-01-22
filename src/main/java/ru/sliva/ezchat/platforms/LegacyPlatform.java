@@ -7,12 +7,15 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.intellij.lang.annotations.RegExp;
 import org.jetbrains.annotations.NotNull;
 import ru.sliva.ezchat.EzChat;
@@ -44,6 +47,34 @@ public final class LegacyPlatform implements Platform {
     @Override
     public void stop() {
         adventure.close();
+    }
+
+    @EventHandler
+    public void onJoin(@NotNull PlayerJoinEvent event) {
+        if(Parameters.changePlayerMessages.getBoolean()) {
+            event.setJoinMessage(null);
+            Player p = event.getPlayer();
+            Component join = TextUtil.replaceLiteral(Messages.join.getComponent(), "{player}", p.displayName());
+            for(Player player : Bukkit.getOnlinePlayers()) {
+                Audience audience = adventure.player(player);
+                audience.sendMessage(join);
+            }
+            adventure.sender(Bukkit.getConsoleSender()).sendMessage(join);
+        }
+    }
+
+    @EventHandler
+    public void onQuit(@NotNull PlayerQuitEvent event) {
+        if(Parameters.changePlayerMessages.getBoolean()) {
+            event.setQuitMessage(null);
+            Player p = event.getPlayer();
+            Component quit = TextUtil.replaceLiteral(Messages.quit.getComponent(), "{player}", p.displayName());
+            for(Player player : Bukkit.getOnlinePlayers()) {
+                Audience audience = adventure.player(player);
+                audience.sendMessage(quit);
+            }
+            adventure.sender(Bukkit.getConsoleSender()).sendMessage(quit);
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -102,7 +133,7 @@ public final class LegacyPlatform implements Platform {
         }
     }
 
-    public @NotNull Component getDisplayName(@NotNull Player player) {
+    public @NotNull String getDisplayName(@NotNull Player player) {
         LuckPerms luckPerms = ezchat.getLuckPerms();
         User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
         CachedMetaData metaData = user.getCachedData().getMetaData();
@@ -110,10 +141,10 @@ public final class LegacyPlatform implements Platform {
         if(prefix == null) {
             prefix = "";
         }
-        return TextUtil.ampersandSerializer.deserialize(prefix).append(TextUtil.getDisplayName(player));
+        return ChatColor.translateAlternateColorCodes('&', prefix + player.getName());
     }
 
-    public @NotNull Component getTabListName(@NotNull Player player) {
+    public @NotNull String getTabListName(@NotNull Player player) {
         LuckPerms luckPerms = ezchat.getLuckPerms();
         User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
         CachedMetaData metaData = user.getCachedData().getMetaData();
@@ -125,17 +156,17 @@ public final class LegacyPlatform implements Platform {
         if(suffix == null) {
             suffix = "";
         }
-        return TextUtil.ampersandSerializer.deserialize(prefix).append(TextUtil.getDisplayName(player)).append(TextUtil.ampersandSerializer.deserialize(suffix));
+        return ChatColor.translateAlternateColorCodes('&', prefix + player.getName() + suffix);
     }
 
     @Override
     public void run() {
         for(Player player : Bukkit.getOnlinePlayers()) {
             if(Parameters.changeTabListName.getBoolean()) {
-                player.playerListName(getTabListName(player));
+                player.setPlayerListName(getTabListName(player));
             }
             if(Parameters.changeDisplayName.getBoolean()) {
-                player.displayName(getDisplayName(player));
+                player.setDisplayName(getDisplayName(player));
             }
         }
     }

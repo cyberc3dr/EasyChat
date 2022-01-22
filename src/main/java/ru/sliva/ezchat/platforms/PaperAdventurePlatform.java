@@ -47,16 +47,20 @@ public final class PaperAdventurePlatform implements Platform{
 
     @EventHandler
     public void onJoin(@NotNull PlayerJoinEvent event) {
-        Player p = event.getPlayer();
-        Component join = TextUtil.replaceLiteral(Messages.join.getComponent(), "{player}", p.displayName());
-        event.joinMessage(join);
+        if(Parameters.changePlayerMessages.getBoolean()) {
+            Player p = event.getPlayer();
+            Component join = TextUtil.replaceLiteral(Messages.join.getComponent(), "{player}", p.displayName());
+            event.joinMessage(join);
+        }
     }
 
     @EventHandler
     public void onQuit(@NotNull PlayerQuitEvent event) {
-        Player p = event.getPlayer();
-        Component quit = TextUtil.replaceLiteral(Messages.quit.getComponent(), "{player}", p.displayName());
-        event.quitMessage(quit);
+        if(Parameters.changePlayerMessages.getBoolean()) {
+            Player p = event.getPlayer();
+            Component quit = TextUtil.replaceLiteral(Messages.quit.getComponent(), "{player}", p.displayName());
+            event.quitMessage(quit);
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -128,7 +132,7 @@ public final class PaperAdventurePlatform implements Platform{
         if(prefix == null) {
             prefix = "";
         }
-        return TextUtil.ampersandSerializer.deserialize(prefix).append(player.displayName());
+        return TextUtil.ampersandSerializer.deserialize(prefix).append(Component.text(player.getName()));
     }
 
     public @NotNull Component getTabListName(@NotNull Player player) {
@@ -143,7 +147,7 @@ public final class PaperAdventurePlatform implements Platform{
         if(suffix == null) {
             suffix = "";
         }
-        return TextUtil.ampersandSerializer.deserialize(prefix).append(player.displayName()).append(TextUtil.ampersandSerializer.deserialize(suffix));
+        return TextUtil.ampersandSerializer.deserialize(prefix).append(Component.text(player.getName())).append(TextUtil.ampersandSerializer.deserialize(suffix));
     }
 
     @Override
