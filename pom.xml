@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.sliva</groupId>
-    <artifactId>EzChat</artifactId>
+    <artifactId>EasyChat</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>EzChat</name>
+    <name>EasyChat</name>
 
     <description>Eazy chat for servers.</description>
 

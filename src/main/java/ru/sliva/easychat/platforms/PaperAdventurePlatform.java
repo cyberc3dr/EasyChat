@@ -1,4 +1,4 @@
-package ru.sliva.ezchat.platforms;
+package ru.sliva.easychat.platforms;
 
 import io.papermc.paper.chat.ChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
@@ -18,27 +18,27 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.intellij.lang.annotations.RegExp;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import ru.sliva.ezchat.EzChat;
-import ru.sliva.ezchat.config.Format;
-import ru.sliva.ezchat.config.Parameters;
-import ru.sliva.ezchat.locale.Commands;
-import ru.sliva.ezchat.locale.Messages;
-import ru.sliva.ezchat.text.TextUtil;
+import ru.sliva.easychat.EasyChat;
+import ru.sliva.easychat.config.Format;
+import ru.sliva.easychat.config.Parameters;
+import ru.sliva.easychat.locale.Commands;
+import ru.sliva.easychat.locale.Messages;
+import ru.sliva.easychat.text.TextUtil;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public final class PaperAdventurePlatform implements Platform{
 
-    private EzChat ezchat;
+    private EasyChat ezchat;
 
     @Override
-    public void init(@NotNull EzChat ezchat) {
+    public void init(@NotNull EasyChat ezchat) {
         this.ezchat = ezchat;
     }
 
     @Override
-    public EzChat getEzChat() {
+    public EasyChat getEzChat() {
         return ezchat;
     }
 
@@ -68,7 +68,7 @@ public final class PaperAdventurePlatform implements Platform{
         Player p = event.getPlayer();
 
         Component message = event.message();
-        if(p.hasPermission("ezchat.color")) {
+        if(p.hasPermission("easychat.color")) {
             message = TextUtil.color(message);
         }
         for(@RegExp String pattern : Format.patterns.getStringList()) {

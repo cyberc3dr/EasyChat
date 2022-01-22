@@ -1,15 +1,15 @@
-package ru.sliva.ezchat.locale;
+package ru.sliva.easychat.locale;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.ConfigurationNode;
-import ru.sliva.ezchat.EzChat;
-import ru.sliva.ezchat.config.YamlConfig;
+import ru.sliva.easychat.EasyChat;
+import ru.sliva.easychat.config.YamlConfig;
 
 public final class LocaleConfig extends YamlConfig {
 
     private final ConfigurationNode root;
 
-    public LocaleConfig(@NotNull EzChat ezchat, @NotNull String fileName) {
+    public LocaleConfig(@NotNull EasyChat ezchat, @NotNull String fileName) {
         super(ezchat, fileName);
         this.root = getRoot();
     }

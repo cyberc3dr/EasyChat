@@ -1,19 +1,21 @@
-package ru.sliva.ezchat.locale;
+package ru.sliva.easychat.locale;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.ConfigurationNode;
-import ru.sliva.ezchat.EzChat;
-import ru.sliva.ezchat.text.TextUtil;
+import ru.sliva.easychat.EasyChat;
+import ru.sliva.easychat.text.TextUtil;
 
-public enum Commands {
+public enum Messages {
 
-    reload("reload");
+    join("join"),
+    quit("quit"),
+    nobodyHeard("nobody-heard");
 
     private final ConfigurationNode node;
 
-    Commands(@NotNull String key) {
-        this.node = EzChat.getInstance().getLocaleConfig().getCommands().node(key);
+    Messages(@NotNull String key) {
+        this.node = EasyChat.getInstance().getLocaleConfig().getMessages().node(key);
     }
 
     public @NotNull String getString() {

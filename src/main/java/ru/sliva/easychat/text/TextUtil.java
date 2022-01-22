@@ -1,4 +1,4 @@
-package ru.sliva.ezchat.text;
+package ru.sliva.easychat.text;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;

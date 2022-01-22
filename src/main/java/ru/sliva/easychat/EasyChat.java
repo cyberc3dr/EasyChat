@@ -1,4 +1,4 @@
-package ru.sliva.ezchat;
+package ru.sliva.easychat;
 
 import io.papermc.lib.PaperLib;
 import net.kyori.adventure.text.Component;
@@ -17,21 +17,21 @@ import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
-import ru.sliva.ezchat.config.EzChatConfig;
-import ru.sliva.ezchat.config.Format;
-import ru.sliva.ezchat.config.Parameters;
-import ru.sliva.ezchat.locale.HoverEvents;
-import ru.sliva.ezchat.locale.LocaleConfig;
-import ru.sliva.ezchat.platforms.LegacyPlatform;
-import ru.sliva.ezchat.platforms.PaperAdventurePlatform;
-import ru.sliva.ezchat.platforms.Platform;
-import ru.sliva.ezchat.text.TextUtil;
+import ru.sliva.easychat.config.EzChatConfig;
+import ru.sliva.easychat.config.Format;
+import ru.sliva.easychat.config.Parameters;
+import ru.sliva.easychat.locale.HoverEvents;
+import ru.sliva.easychat.locale.LocaleConfig;
+import ru.sliva.easychat.platforms.LegacyPlatform;
+import ru.sliva.easychat.platforms.PaperAdventurePlatform;
+import ru.sliva.easychat.platforms.Platform;
+import ru.sliva.easychat.text.TextUtil;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public final class EzChat extends JavaPlugin {
+public final class EasyChat extends JavaPlugin {
 
     private EzChatConfig config;
     private LocaleConfig localeConfig;
@@ -39,7 +39,7 @@ public final class EzChat extends JavaPlugin {
     private LuckPerms luckperms;
     private Platform platform;
 
-    private static EzChat instance;
+    private static EasyChat instance;
 
     @Override
     public void onEnable() {
@@ -78,7 +78,7 @@ public final class EzChat extends JavaPlugin {
         localeConfig = new LocaleConfig(this, "messages-" + Parameters.locale.getString() + ".yml");
     }
 
-    public static EzChat getInstance() {
+    public static EasyChat getInstance() {
         return instance;
     }
 

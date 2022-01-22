@@ -1,10 +1,10 @@
-package ru.sliva.ezchat.locale;
+package ru.sliva.easychat.locale;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.ConfigurationNode;
-import ru.sliva.ezchat.EzChat;
-import ru.sliva.ezchat.text.TextUtil;
+import ru.sliva.easychat.EasyChat;
+import ru.sliva.easychat.text.TextUtil;
 
 public enum HoverEvents {
 
@@ -14,7 +14,7 @@ public enum HoverEvents {
     private final ConfigurationNode node;
 
     HoverEvents(@NotNull String key) {
-        this.node = EzChat.getInstance().getLocaleConfig().getHoverEvents().node(key);
+        this.node = EasyChat.getInstance().getLocaleConfig().getHoverEvents().node(key);
     }
 
     public @NotNull String getString() {

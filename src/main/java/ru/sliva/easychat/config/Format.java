@@ -1,11 +1,11 @@
-package ru.sliva.ezchat.config;
+package ru.sliva.easychat.config;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
-import ru.sliva.ezchat.EzChat;
-import ru.sliva.ezchat.text.TextUtil;
+import ru.sliva.easychat.EasyChat;
+import ru.sliva.easychat.text.TextUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +20,7 @@ public enum Format {
     private final ConfigurationNode node;
 
     Format(@NotNull String key) {
-        this.node = EzChat.getInstance().getPluginConfig().getFormat().node(key);
+        this.node = EasyChat.getInstance().getPluginConfig().getFormat().node(key);
     }
 
     public @NotNull List<String> getStringList() {

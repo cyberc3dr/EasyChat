@@ -1,4 +1,4 @@
-package ru.sliva.ezchat.platforms;
+package ru.sliva.easychat.platforms;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -18,29 +18,29 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.intellij.lang.annotations.RegExp;
 import org.jetbrains.annotations.NotNull;
-import ru.sliva.ezchat.EzChat;
-import ru.sliva.ezchat.config.Format;
-import ru.sliva.ezchat.config.Parameters;
-import ru.sliva.ezchat.locale.Commands;
-import ru.sliva.ezchat.locale.Messages;
-import ru.sliva.ezchat.text.TextUtil;
+import ru.sliva.easychat.EasyChat;
+import ru.sliva.easychat.config.Format;
+import ru.sliva.easychat.config.Parameters;
+import ru.sliva.easychat.locale.Commands;
+import ru.sliva.easychat.locale.Messages;
+import ru.sliva.easychat.text.TextUtil;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public final class LegacyPlatform implements Platform {
 
-    private EzChat ezchat;
+    private EasyChat ezchat;
     private BukkitAudiences adventure;
 
     @Override
-    public void init(@NotNull EzChat ezchat) {
+    public void init(@NotNull EasyChat ezchat) {
         this.ezchat = ezchat;
         this.adventure = BukkitAudiences.create(ezchat);
     }
 
     @Override
-    public EzChat getEzChat() {
+    public EasyChat getEzChat() {
         return ezchat;
     }
 
@@ -83,7 +83,7 @@ public final class LegacyPlatform implements Platform {
         Audience audience = adventure.player(p);
 
         Component message = TextUtil.paragraphSerializer.deserialize(event.getMessage());
-        if(p.hasPermission("ezchat.color")) {
+        if(p.hasPermission("easychat.color")) {
             message = TextUtil.color(message);
         }
         for(@RegExp String pattern : Format.patterns.getStringList()) {

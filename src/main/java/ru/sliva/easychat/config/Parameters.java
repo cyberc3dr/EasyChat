@@ -1,9 +1,9 @@
-package ru.sliva.ezchat.config;
+package ru.sliva.easychat.config;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.ConfigurationNode;
-import ru.sliva.ezchat.EzChat;
-import ru.sliva.ezchat.text.TextUtil;
+import ru.sliva.easychat.EasyChat;
+import ru.sliva.easychat.text.TextUtil;
 
 public enum Parameters {
 
@@ -18,7 +18,7 @@ public enum Parameters {
     private final ConfigurationNode node;
 
     Parameters(@NotNull String key) {
-        this.node = EzChat.getInstance().getPluginConfig().getParameters().node(key);
+        this.node = EasyChat.getInstance().getPluginConfig().getParameters().node(key);
     }
 
     public boolean getBoolean() {

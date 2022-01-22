@@ -1,14 +1,14 @@
-package ru.sliva.ezchat.config;
+package ru.sliva.easychat.config;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.ConfigurationNode;
-import ru.sliva.ezchat.EzChat;
+import ru.sliva.easychat.EasyChat;
 
 public final class EzChatConfig extends YamlConfig{
 
     private final ConfigurationNode root;
 
-    public EzChatConfig(@NotNull EzChat ezchat) {
+    public EzChatConfig(@NotNull EasyChat ezchat) {
         super(ezchat, "config.yml");
         this.root = getRoot();
     }
