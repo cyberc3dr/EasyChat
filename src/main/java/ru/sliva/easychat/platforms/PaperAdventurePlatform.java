@@ -132,7 +132,7 @@ public final class PaperAdventurePlatform implements Platform{
         if(prefix == null) {
             prefix = "";
         }
-        return TextUtil.ampersandSerializer.deserialize(prefix).append(Component.text(player.getName()));
+        return TextUtil.ampersandSerializer.deserialize(prefix + player.getName());
     }
 
     public @NotNull Component getTabListName(@NotNull Player player) {
@@ -147,7 +147,7 @@ public final class PaperAdventurePlatform implements Platform{
         if(suffix == null) {
             suffix = "";
         }
-        return TextUtil.ampersandSerializer.deserialize(prefix).append(Component.text(player.getName())).append(TextUtil.ampersandSerializer.deserialize(suffix));
+        return TextUtil.ampersandSerializer.deserialize(prefix + player.getName() + suffix);
     }
 
     @Override
