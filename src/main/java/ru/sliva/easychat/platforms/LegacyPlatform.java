@@ -51,9 +51,10 @@ public final class LegacyPlatform implements Platform {
 
     @EventHandler
     public void onJoin(@NotNull PlayerJoinEvent event) {
+        Player p = event.getPlayer();
+        updatePlayerData(p);
         if(Parameters.changePlayerMessages.getBoolean()) {
             event.setJoinMessage(null);
-            Player p = event.getPlayer();
             Component join = TextUtil.replaceLiteral(Messages.join.getComponent(), "{player}", p.displayName());
             for(Player player : Bukkit.getOnlinePlayers()) {
                 Audience audience = adventure.player(player);
@@ -160,14 +161,12 @@ public final class LegacyPlatform implements Platform {
     }
 
     @Override
-    public void run() {
-        for(Player player : Bukkit.getOnlinePlayers()) {
-            if(Parameters.changeTabListName.getBoolean()) {
-                player.setPlayerListName(getTabListName(player));
-            }
-            if(Parameters.changeDisplayName.getBoolean()) {
-                player.setDisplayName(getDisplayName(player));
-            }
+    public void updatePlayerData(Player player) {
+        if(Parameters.changeTabListName.getBoolean()) {
+            player.setPlayerListName(getTabListName(player));
+        }
+        if(Parameters.changeDisplayName.getBoolean()) {
+            player.setDisplayName(getDisplayName(player));
         }
     }
 

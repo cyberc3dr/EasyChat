@@ -31,7 +31,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public final class EasyChat extends JavaPlugin {
+public final class EasyChat extends JavaPlugin implements Runnable{
 
     private EzChatConfig config;
     private LocaleConfig localeConfig;
@@ -68,7 +68,7 @@ public final class EasyChat extends JavaPlugin {
         this.platform = platform;
 
         if(Parameters.changeTabListName.getBoolean() || Parameters.changeDisplayName.getBoolean()) {
-            task = Bukkit.getScheduler().runTaskTimer(this, platform, 0, 20);
+            task = Bukkit.getScheduler().runTaskTimer(this, this, 0, 20);
         }
 
         Objects.requireNonNull(getCommand("ezchat")).setExecutor(platform);
@@ -137,5 +137,10 @@ public final class EasyChat extends JavaPlugin {
 
     public LocaleConfig getLocaleConfig() {
         return localeConfig;
+    }
+
+    @Override
+    public void run() {
+        Bukkit.getOnlinePlayers().forEach(p -> platform.updatePlayerData(p));
     }
 }

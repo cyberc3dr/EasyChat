@@ -45,10 +45,21 @@ public final class PaperAdventurePlatform implements Platform{
     @Override
     public void stop() {}
 
+    @Override
+    public void updatePlayerData(Player player) {
+        if(Parameters.changeTabListName.getBoolean()) {
+            player.playerListName(getTabListName(player));
+        }
+        if(Parameters.changeDisplayName.getBoolean()) {
+            player.displayName(getDisplayName(player));
+        }
+    }
+
     @EventHandler
     public void onJoin(@NotNull PlayerJoinEvent event) {
+        Player p = event.getPlayer();
+        updatePlayerData(p);
         if(Parameters.changePlayerMessages.getBoolean()) {
-            Player p = event.getPlayer();
             Component join = TextUtil.replaceLiteral(Messages.join.getComponent(), "{player}", p.displayName());
             event.joinMessage(join);
         }
@@ -148,18 +159,6 @@ public final class PaperAdventurePlatform implements Platform{
             suffix = "";
         }
         return TextUtil.ampersandSerializer.deserialize(prefix + player.getName() + suffix);
-    }
-
-    @Override
-    public void run() {
-        for(Player player : Bukkit.getOnlinePlayers()) {
-            if(Parameters.changeTabListName.getBoolean()) {
-                player.playerListName(getTabListName(player));
-            }
-            if(Parameters.changeDisplayName.getBoolean()) {
-                player.displayName(getDisplayName(player));
-            }
-        }
     }
 
     @Override
