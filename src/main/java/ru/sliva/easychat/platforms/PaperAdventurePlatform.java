@@ -127,12 +127,16 @@ public final class PaperAdventurePlatform implements Platform{
     @Contract(value = "_ -> new", pure = true)
     public @NotNull ChatRenderer constructChatRenderer(boolean global) {
         return ChatRenderer.viewerUnaware((source, sourceDisplayName, message) ->
-                ezchat.addChannel(ezchat.render(source, sourceDisplayName, message), global));
+                ezchat.addChannel(ezchat.render(source, source.displayName(), message), global));
+                //ezchat.addChannel(ezchat.render(source, sourceDisplayName, message), global));
+                // TODO
     }
 
     public @NotNull ChatRenderer constructChatRenderer() {
         return ChatRenderer.viewerUnaware((source, sourceDisplayName, message) ->
-                ezchat.render(source, sourceDisplayName, message));
+                ezchat.render(source, source.displayName(), message));
+                //ezchat.render(source, sourceDisplayName, message));
+                // TODO
     }
 
     public @NotNull Component getDisplayName(@NotNull Player player) {
