@@ -22,5 +22,3 @@ format:
   local-chat: '&a[L] &r'
   # Chat format
   format: '&f{player} &8»&7 {message}'
-  # Patterns for chat filtering
-  patterns: []

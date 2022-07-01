@@ -16,10 +16,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.intellij.lang.annotations.RegExp;
 import org.jetbrains.annotations.NotNull;
 import ru.sliva.easychat.EasyChat;
-import ru.sliva.easychat.config.Format;
 import ru.sliva.easychat.config.Parameters;
 import ru.sliva.easychat.locale.Commands;
 import ru.sliva.easychat.locale.Messages;
@@ -30,18 +28,18 @@ import java.util.Set;
 
 public final class LegacyPlatform implements Platform {
 
-    private EasyChat ezchat;
+    private EasyChat easyChat;
     private BukkitAudiences adventure;
 
     @Override
-    public void init(@NotNull EasyChat ezchat) {
-        this.ezchat = ezchat;
-        this.adventure = BukkitAudiences.create(ezchat);
+    public void init(@NotNull EasyChat easyChat) {
+        this.easyChat = easyChat;
+        this.adventure = BukkitAudiences.create(easyChat);
     }
 
     @Override
     public EasyChat getEzChat() {
-        return ezchat;
+        return easyChat;
     }
 
     @Override
@@ -87,9 +85,6 @@ public final class LegacyPlatform implements Platform {
         if(p.hasPermission("easychat.color")) {
             message = TextUtil.color(message);
         }
-        for(@RegExp String pattern : Format.patterns.getStringList()) {
-            message = TextUtil.replace(message, pattern, "");
-        }
         message = TextUtil.removeSpaces(message);
 
         if(Parameters.rangeMode.getBoolean()) {
@@ -102,7 +97,7 @@ public final class LegacyPlatform implements Platform {
                 Set<Player> viewers = event.getRecipients();
                 for(Player player : new HashSet<>(viewers)) {
                     if(audience instanceof Player) {
-                        if(ezchat.outOfRange(p.getLocation(), player.getLocation())) {
+                        if(easyChat.outOfRange(p.getLocation(), player.getLocation())) {
                             viewers.remove(audience);
                         }
                     }
@@ -114,8 +109,8 @@ public final class LegacyPlatform implements Platform {
 
             event.setCancelled(true);
 
-            if(!TextUtil.isEmpty(message)) {
-                Component format = ezchat.addChannel(ezchat.render(p, TextUtil.getDisplayName(p), message), global);
+            if(message.equals(Component.empty())) {
+                Component format = easyChat.addChannel(easyChat.render(p, TextUtil.getDisplayName(p), message), global);
                 for(Player player : Bukkit.getOnlinePlayers()) {
                     adventure.player(player).sendMessage(format);
                 }
@@ -124,8 +119,8 @@ public final class LegacyPlatform implements Platform {
         } else {
             event.setCancelled(true);
 
-            if(!TextUtil.isEmpty(message)) {
-                Component format = ezchat.render(p, TextUtil.getDisplayName(p), message);
+            if(message.equals(Component.empty())) {
+                Component format = easyChat.render(p, TextUtil.getDisplayName(p), message);
                 for(Player player : Bukkit.getOnlinePlayers()) {
                     adventure.player(player).sendMessage(format);
                 }
@@ -135,7 +130,7 @@ public final class LegacyPlatform implements Platform {
     }
 
     public @NotNull String getDisplayName(@NotNull Player player) {
-        LuckPerms luckPerms = ezchat.getLuckPerms();
+        LuckPerms luckPerms = easyChat.getLuckPerms();
         User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
         CachedMetaData metaData = user.getCachedData().getMetaData();
         String prefix = metaData.getPrefix();
@@ -146,7 +141,7 @@ public final class LegacyPlatform implements Platform {
     }
 
     public @NotNull String getTabListName(@NotNull Player player) {
-        LuckPerms luckPerms = ezchat.getLuckPerms();
+        LuckPerms luckPerms = easyChat.getLuckPerms();
         User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
         CachedMetaData metaData = user.getCachedData().getMetaData();
         String prefix = metaData.getPrefix();
@@ -173,8 +168,8 @@ public final class LegacyPlatform implements Platform {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(args.length < 1) {
-            ezchat.getPluginConfig().reloadConfig();
-            ezchat.updateLocaleConfig();
+            easyChat.getPluginConfig().reloadConfig();
+            easyChat.updateLocaleConfig();
             adventure.sender(sender).sendMessage(Commands.reload.getComponent());
             return true;
         }

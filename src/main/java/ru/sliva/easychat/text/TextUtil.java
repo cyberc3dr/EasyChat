@@ -14,14 +14,9 @@ public final class TextUtil {
 
     public static final LegacyComponentSerializer paragraphSerializer = LegacyComponentSerializer.legacySection();
     public static final LegacyComponentSerializer ampersandSerializer = LegacyComponentSerializer.legacyAmpersand();
-    public static final BungeeComponentSerializer bungeeSerializer = BungeeComponentSerializer.legacy();
 
     public static @NotNull Component color(@NotNull Component component) {
         return ampersandSerializer.deserialize(paragraphSerializer.serialize(component));
-    }
-
-    public static @NotNull Component removeItalics(@NotNull Component component) {
-        return component.decoration(TextDecoration.ITALIC, false);
     }
 
     public static @NotNull Component removeSpaces(@NotNull Component component) {
@@ -62,10 +57,6 @@ public final class TextUtil {
 
     public static boolean startsWith(@NotNull Component component, @NotNull String prefix) {
         return paragraphSerializer.serialize(component).startsWith(prefix);
-    }
-
-    public static boolean isEmpty(@NotNull Component component) {
-        return paragraphSerializer.serialize(component).equals("");
     }
 
     @Contract(value = "!null -> param1", pure = true)

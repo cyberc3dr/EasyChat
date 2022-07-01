@@ -2,9 +2,9 @@ package ru.sliva.easychat;
 
 import io.papermc.lib.PaperLib;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.serializer.plain.PlainComponentSerializer;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -112,18 +112,23 @@ public final class EasyChat extends JavaPlugin implements Runnable{
     }
 
     public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message) {
-        TextComponent textMessage = (TextComponent) message;
-        textMessage = textMessage.hoverEvent(HoverEvent.showText(HoverEvents.copyMessage.getComponent()));
-        textMessage = textMessage.clickEvent(ClickEvent.copyToClipboard(textMessage.content()));
+        // Source
+        Component displayName = Component.empty().toBuilder()
+                .append(sourceDisplayName)
+                .hoverEvent(HoverEvent.showText(TextUtil.replaceLiteral(HoverEvents.tellMessage.getComponent(), "{player}", sourceDisplayName)))
+                .clickEvent(ClickEvent.suggestCommand("/tell " + source.getName() + " "))
+                .build();
 
-        Component sendMessage = TextUtil.replaceLiteral(HoverEvents.tellMessage.getComponent(), "{player}", sourceDisplayName);
-        TextComponent textDisplayName = (TextComponent) sourceDisplayName;
-        textDisplayName = textDisplayName.hoverEvent(HoverEvent.showText(sendMessage));
-        textDisplayName = textDisplayName.clickEvent(ClickEvent.suggestCommand("/tell " + source.getName() + " "));
+        // Message
+        Component chatMessage = Component.empty().toBuilder()
+                .append(message)
+                .hoverEvent(HoverEvent.showText(HoverEvents.copyMessage.getComponent()))
+                .clickEvent(ClickEvent.copyToClipboard(PlainComponentSerializer.plain().serialize(message)))
+                .build();
 
         Component rendered = Format.format.getComponent();
-        rendered = TextUtil.replaceLiteral(rendered, "{player}", textDisplayName);
-        rendered = TextUtil.replaceLiteral(rendered, "{message}", textMessage);
+        rendered = TextUtil.replaceLiteral(rendered, "{player}", displayName);
+        rendered = TextUtil.replaceLiteral(rendered, "{message}", chatMessage);
         return rendered;
     }
 

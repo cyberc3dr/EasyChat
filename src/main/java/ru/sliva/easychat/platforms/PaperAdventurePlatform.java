@@ -15,11 +15,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.intellij.lang.annotations.RegExp;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import ru.sliva.easychat.EasyChat;
-import ru.sliva.easychat.config.Format;
 import ru.sliva.easychat.config.Parameters;
 import ru.sliva.easychat.locale.Commands;
 import ru.sliva.easychat.locale.Messages;
@@ -30,16 +28,16 @@ import java.util.Set;
 
 public final class PaperAdventurePlatform implements Platform{
 
-    private EasyChat ezchat;
+    private EasyChat easyChat;
 
     @Override
-    public void init(@NotNull EasyChat ezchat) {
-        this.ezchat = ezchat;
+    public void init(@NotNull EasyChat easyChat) {
+        this.easyChat = easyChat;
     }
 
     @Override
     public EasyChat getEzChat() {
-        return ezchat;
+        return easyChat;
     }
 
     @Override
@@ -82,9 +80,6 @@ public final class PaperAdventurePlatform implements Platform{
         if(p.hasPermission("easychat.color")) {
             message = TextUtil.color(message);
         }
-        for(@RegExp String pattern : Format.patterns.getStringList()) {
-            message = TextUtil.replace(message, pattern, "");
-        }
         message = TextUtil.removeSpaces(message);
 
         if(Parameters.rangeMode.getBoolean()) {
@@ -98,7 +93,7 @@ public final class PaperAdventurePlatform implements Platform{
                 for(Audience audience : new HashSet<>(viewers)) {
                     if(audience instanceof Player) {
                         Player player = (Player) audience;
-                        if(ezchat.outOfRange(p.getLocation(), player.getLocation())) {
+                        if(easyChat.outOfRange(p.getLocation(), player.getLocation())) {
                             viewers.remove(audience);
                         }
                     }
@@ -109,14 +104,14 @@ public final class PaperAdventurePlatform implements Platform{
             }
             event.message(message);
 
-            if(TextUtil.isEmpty(message)) {
+            if(message.equals(Component.empty())) {
                 event.setCancelled(true);
             } else {
                 event.renderer(constructChatRenderer(global));
             }
         } else {
             event.message(message);
-            if(TextUtil.isEmpty(message)) {
+            if(message.equals(Component.empty())) {
                 event.setCancelled(true);
             } else {
                 event.renderer(constructChatRenderer());
@@ -127,20 +122,16 @@ public final class PaperAdventurePlatform implements Platform{
     @Contract(value = "_ -> new", pure = true)
     public @NotNull ChatRenderer constructChatRenderer(boolean global) {
         return ChatRenderer.viewerUnaware((source, sourceDisplayName, message) ->
-                ezchat.addChannel(ezchat.render(source, TextUtil.paragraphSerializer.deserialize(source.getDisplayName()), message), global));
-                //ezchat.addChannel(ezchat.render(source, sourceDisplayName, message), global));
-                // TODO
+                easyChat.addChannel(easyChat.render(source, sourceDisplayName, message), global));
     }
 
     public @NotNull ChatRenderer constructChatRenderer() {
         return ChatRenderer.viewerUnaware((source, sourceDisplayName, message) ->
-                ezchat.render(source, TextUtil.paragraphSerializer.deserialize(source.getDisplayName()), message));
-                //ezchat.render(source, sourceDisplayName, message));
-                // TODO
+                easyChat.render(source, sourceDisplayName, message));
     }
 
     public @NotNull Component getDisplayName(@NotNull Player player) {
-        LuckPerms luckPerms = ezchat.getLuckPerms();
+        LuckPerms luckPerms = easyChat.getLuckPerms();
         User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
         CachedMetaData metaData = user.getCachedData().getMetaData();
         String prefix = metaData.getPrefix();
@@ -151,7 +142,7 @@ public final class PaperAdventurePlatform implements Platform{
     }
 
     public @NotNull Component getTabListName(@NotNull Player player) {
-        LuckPerms luckPerms = ezchat.getLuckPerms();
+        LuckPerms luckPerms = easyChat.getLuckPerms();
         User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
         CachedMetaData metaData = user.getCachedData().getMetaData();
         String prefix = metaData.getPrefix();
@@ -168,8 +159,8 @@ public final class PaperAdventurePlatform implements Platform{
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(args.length < 1) {
-            ezchat.getPluginConfig().reloadConfig();
-            ezchat.updateLocaleConfig();
+            easyChat.getPluginConfig().reloadConfig();
+            easyChat.updateLocaleConfig();
             sender.sendMessage(Commands.reload.getComponent());
             return true;
         }

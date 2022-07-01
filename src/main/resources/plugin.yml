@@ -6,16 +6,16 @@ load: STARTUP
 depend: [LuckPerms]
 authors: [ sliva_ru ]
 description: Eazy chat for servers.
-website: https://github.com/Geo3gamer/EzChat
+website: https://github.com/Geo3gamer/EasyChat
 commands:
-  ezchat:
+  easychat:
     description: 'Reloads configuration'
-    permission: 'easychat.ezchat'
+    permission: 'easychat.reload'
     usage: '/easychat'
 permissions:
   easychat.color:
     description: 'Colors the chat message'
     default: 'op'
-  easychat.ezchat:
+  easychat.reload:
     description: 'Give access to reload command'
     default: 'op'
