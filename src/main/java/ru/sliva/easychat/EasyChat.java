@@ -71,7 +71,7 @@ public final class EasyChat extends JavaPlugin implements Runnable{
             task = Bukkit.getScheduler().runTaskTimer(this, this, 0, 20);
         }
 
-        Objects.requireNonNull(getCommand("ezchat")).setExecutor(platform);
+        Objects.requireNonNull(getCommand("easychat")).setExecutor(platform);
     }
 
     public void updateLocaleConfig() {
