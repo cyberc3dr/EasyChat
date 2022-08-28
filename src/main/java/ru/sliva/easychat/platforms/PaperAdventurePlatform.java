@@ -98,9 +98,6 @@ public final class PaperAdventurePlatform implements Platform{
                         }
                     }
                 }
-                if(viewers.size() == 2 && Bukkit.getOnlinePlayers().size() > 1) {
-                    p.sendMessage(Messages.nobodyHeard.getComponent());
-                }
             }
             event.message(message);
 

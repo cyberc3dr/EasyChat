@@ -4,6 +4,5 @@ hover-events:
 messages:
   join: '&f{player} &ajoined the game.'
   quit: '&f{player} &eleft the game.'
-  nobody-heard: '&cNobody heard you.'
 commands:
   reload: '&aConfiguration reloaded'

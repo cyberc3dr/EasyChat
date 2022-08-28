@@ -4,6 +4,5 @@ hover-events:
 messages:
   join: '&f{player} &aприсоединился к игре.'
   quit: '&f{player} &eпокинул игру.'
-  nobody-heard: '&cВас никто не услышал.'
 commands:
   reload: '&aКонфигурация перезагружена'

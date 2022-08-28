@@ -9,8 +9,7 @@ import ru.sliva.easychat.text.TextUtil;
 public enum Messages {
 
     join("join"),
-    quit("quit"),
-    nobodyHeard("nobody-heard");
+    quit("quit");
 
     private final ConfigurationNode node;
 
