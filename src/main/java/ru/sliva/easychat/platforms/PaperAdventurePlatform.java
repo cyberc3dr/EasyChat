@@ -26,7 +26,7 @@ import ru.sliva.easychat.text.TextUtil;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class PaperAdventurePlatform implements Platform{
+public final class PaperAdventurePlatform implements Platform {
 
     private EasyChat easyChat;
 
@@ -36,14 +36,15 @@ public final class PaperAdventurePlatform implements Platform{
     }
 
     @Override
-    public void stop() {}
+    public void stop() {
+    }
 
     @Override
     public void updatePlayerData(Player player) {
-        if(Parameters.changeTabListName.getBoolean()) {
+        if (Parameters.changeTabListName.getBoolean()) {
             player.playerListName(getTabListName(player));
         }
-        if(Parameters.changeDisplayName.getBoolean()) {
+        if (Parameters.changeDisplayName.getBoolean()) {
             player.displayName(getDisplayName(player));
         }
     }
@@ -52,8 +53,8 @@ public final class PaperAdventurePlatform implements Platform{
     public void onJoin(@NotNull PlayerJoinEvent event) {
         Player p = event.getPlayer();
         updatePlayerData(p);
-        if(Parameters.changePlayerMessages.getBoolean()) {
-            if(!Parameters.removePlayerMessages.getBoolean()) {
+        if (Parameters.changePlayerMessages.getBoolean()) {
+            if (!Parameters.removePlayerMessages.getBoolean()) {
                 Component join = TextUtil.replaceLiteral(
                         TextUtil.ampersandSerializer.deserialize(
                                 PlaceholderAPI.setPlaceholders(p, Messages.join.getString())),
@@ -69,8 +70,8 @@ public final class PaperAdventurePlatform implements Platform{
 
     @EventHandler
     public void onQuit(@NotNull PlayerQuitEvent event) {
-        if(Parameters.changePlayerMessages.getBoolean()) {
-            if(!Parameters.removePlayerMessages.getBoolean()) {
+        if (Parameters.changePlayerMessages.getBoolean()) {
+            if (!Parameters.removePlayerMessages.getBoolean()) {
                 Player p = event.getPlayer();
 
                 Component quit = TextUtil.replaceLiteral(
@@ -90,26 +91,22 @@ public final class PaperAdventurePlatform implements Platform{
     public void onChat(@NotNull AsyncChatEvent event) {
         Player p = event.getPlayer();
 
-        Component message = TextUtil.removeSpaces(
-                TextUtil.insertPlaceholders(p,
-                        event.message()
-                )
-        );
-        if(p.hasPermission("easychat.color")) {
+        Component message = TextUtil.removeSpaces(event.message());
+        if (p.hasPermission("easychat.color")) {
             message = TextUtil.color(message);
         }
 
-        if(Parameters.rangeMode.getBoolean()) {
+        if (Parameters.rangeMode.getBoolean()) {
             boolean global = false;
 
-            if(TextUtil.startsWith(message, "!")) {
+            if (TextUtil.startsWith(message, "!")) {
                 message = TextUtil.replaceLiteralOnce(message, "!", Component.empty());
                 global = true;
             } else {
                 Set<Audience> viewers = event.viewers();
-                for(Audience audience : new HashSet<>(viewers)) {
-                    if(audience instanceof Player player) {
-                        if(easyChat.outOfRange(p.getLocation(), player.getLocation())) {
+                for (Audience audience : new HashSet<>(viewers)) {
+                    if (audience instanceof Player player) {
+                        if (easyChat.outOfRange(p.getLocation(), player.getLocation())) {
                             viewers.remove(audience);
                         }
                     }
@@ -117,14 +114,14 @@ public final class PaperAdventurePlatform implements Platform{
             }
             event.message(message);
 
-            if(message.equals(Component.empty())) {
+            if (message.equals(Component.empty())) {
                 event.setCancelled(true);
             } else {
                 event.renderer(constructChatRenderer(global));
             }
         } else {
             event.message(message);
-            if(message.equals(Component.empty())) {
+            if (message.equals(Component.empty())) {
                 event.setCancelled(true);
             } else {
                 event.renderer(constructChatRenderer());
@@ -148,7 +145,7 @@ public final class PaperAdventurePlatform implements Platform{
         User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
         CachedMetaData metaData = user.getCachedData().getMetaData();
         String prefix = metaData.getPrefix();
-        if(prefix == null) {
+        if (prefix == null) {
             prefix = "";
         }
         return TextUtil.ampersandSerializer.deserialize(prefix + player.getName());
@@ -159,11 +156,11 @@ public final class PaperAdventurePlatform implements Platform{
         User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
         CachedMetaData metaData = user.getCachedData().getMetaData();
         String prefix = metaData.getPrefix();
-        if(prefix == null) {
+        if (prefix == null) {
             prefix = "";
         }
         String suffix = metaData.getSuffix();
-        if(suffix == null) {
+        if (suffix == null) {
             suffix = "";
         }
         return TextUtil.ampersandSerializer.deserialize(prefix + player.getName() + suffix);
@@ -171,7 +168,7 @@ public final class PaperAdventurePlatform implements Platform{
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
-        if(args.length < 1) {
+        if (args.length < 1) {
             easyChat.getConfig().reloadConfig();
             sender.sendMessage(
                     TextUtil.ampersandSerializer.deserialize(

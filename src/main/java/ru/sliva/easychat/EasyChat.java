@@ -28,7 +28,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public final class EasyChat extends JavaPlugin implements Runnable{
+public final class EasyChat extends JavaPlugin implements Runnable {
 
     private PluginConfig config;
     private BukkitTask task;
@@ -54,7 +54,7 @@ public final class EasyChat extends JavaPlugin implements Runnable{
 
         this.platform = platform;
 
-        if(Parameters.changeTabListName.getBoolean() || Parameters.changeDisplayName.getBoolean()) {
+        if (Parameters.changeTabListName.getBoolean() || Parameters.changeDisplayName.getBoolean()) {
             task = Bukkit.getScheduler().runTaskTimer(this, this, 0, 20);
         }
 
@@ -83,7 +83,7 @@ public final class EasyChat extends JavaPlugin implements Runnable{
         } else if (l.getWorld() != ll.getWorld()) {
             return true;
         }
-        if(!Parameters.onlyPerWorld.getBoolean()) {
+        if (!Parameters.onlyPerWorld.getBoolean()) {
             return l.distanceSquared(ll) > Parameters.range.getInt();
         }
         return true;
@@ -109,7 +109,7 @@ public final class EasyChat extends JavaPlugin implements Runnable{
                 .clickEvent(ClickEvent.copyToClipboard(PlainTextComponentSerializer.plainText().serialize(message)))
                 .build();
 
-        Component rendered = Format.format.getComponent();
+        Component rendered = TextUtil.insertPlaceholders(source, Format.format.getComponent());
         rendered = TextUtil.replaceLiteral(rendered, "{player}", displayName);
         rendered = TextUtil.replaceLiteral(rendered, "{message}", chatMessage);
         return rendered;
