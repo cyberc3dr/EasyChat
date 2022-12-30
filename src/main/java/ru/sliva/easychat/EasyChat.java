@@ -16,10 +16,10 @@ import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
-import ru.sliva.easychat.config.api.Format;
-import ru.sliva.easychat.config.api.Parameters;
 import ru.sliva.easychat.config.PluginConfig;
+import ru.sliva.easychat.config.api.Format;
 import ru.sliva.easychat.config.api.HoverEvents;
+import ru.sliva.easychat.config.api.Parameters;
 import ru.sliva.easychat.platforms.PaperAdventurePlatform;
 import ru.sliva.easychat.platforms.Platform;
 import ru.sliva.easychat.text.TextUtil;
@@ -30,12 +30,15 @@ import java.util.Objects;
 
 public final class EasyChat extends JavaPlugin implements Runnable {
 
+    private static EasyChat instance;
     private PluginConfig config;
     private BukkitTask task;
     private LuckPerms luckperms;
     private Platform platform;
 
-    private static EasyChat instance;
+    public static EasyChat getInstance() {
+        return instance;
+    }
 
     @Override
     public void onEnable() {
@@ -59,10 +62,6 @@ public final class EasyChat extends JavaPlugin implements Runnable {
         }
 
         Objects.requireNonNull(getCommand("easychat")).setExecutor(platform);
-    }
-
-    public static EasyChat getInstance() {
-        return instance;
     }
 
     @Contract(pure = true)
