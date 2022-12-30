@@ -1,10 +1,9 @@
 package ru.sliva.easychat;
 
-import io.papermc.lib.PaperLib;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
-import net.kyori.adventure.text.serializer.plain.PlainComponentSerializer;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -17,12 +16,10 @@ import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
-import ru.sliva.easychat.config.EzChatConfig;
-import ru.sliva.easychat.config.Format;
-import ru.sliva.easychat.config.Parameters;
-import ru.sliva.easychat.locale.HoverEvents;
-import ru.sliva.easychat.locale.LocaleConfig;
-import ru.sliva.easychat.platforms.LegacyPlatform;
+import ru.sliva.easychat.config.api.Format;
+import ru.sliva.easychat.config.api.Parameters;
+import ru.sliva.easychat.config.PluginConfig;
+import ru.sliva.easychat.config.api.HoverEvents;
 import ru.sliva.easychat.platforms.PaperAdventurePlatform;
 import ru.sliva.easychat.platforms.Platform;
 import ru.sliva.easychat.text.TextUtil;
@@ -33,8 +30,7 @@ import java.util.Objects;
 
 public final class EasyChat extends JavaPlugin implements Runnable{
 
-    private EzChatConfig config;
-    private LocaleConfig localeConfig;
+    private PluginConfig config;
     private BukkitTask task;
     private LuckPerms luckperms;
     private Platform platform;
@@ -45,23 +41,14 @@ public final class EasyChat extends JavaPlugin implements Runnable{
     public void onEnable() {
         instance = this;
 
-        config = new EzChatConfig(this);
-
-        updateLocaleConfig();
+        config = new PluginConfig(this);
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         if (provider != null) {
             luckperms = provider.getProvider();
         }
 
-        Platform platform;
-        if(PaperLib.isPaper() && PaperLib.isVersion(16, 5)) {
-            // Paper with adventure
-            platform = new PaperAdventurePlatform();
-        } else {
-            // Generic CraftBukkit implementation
-            platform = new LegacyPlatform();
-        }
+        Platform platform = new PaperAdventurePlatform();
         Bukkit.getPluginManager().registerEvents(platform, this);
         platform.init(this);
 
@@ -72,10 +59,6 @@ public final class EasyChat extends JavaPlugin implements Runnable{
         }
 
         Objects.requireNonNull(getCommand("easychat")).setExecutor(platform);
-    }
-
-    public void updateLocaleConfig() {
-        localeConfig = new LocaleConfig(this, "messages-" + Parameters.locale.getString() + ".yml");
     }
 
     public static EasyChat getInstance() {
@@ -123,7 +106,7 @@ public final class EasyChat extends JavaPlugin implements Runnable{
         Component chatMessage = Component.empty().toBuilder()
                 .append(message)
                 .hoverEvent(HoverEvent.showText(HoverEvents.copyMessage.getComponent()))
-                .clickEvent(ClickEvent.copyToClipboard(PlainComponentSerializer.plain().serialize(message)))
+                .clickEvent(ClickEvent.copyToClipboard(PlainTextComponentSerializer.plainText().serialize(message)))
                 .build();
 
         Component rendered = Format.format.getComponent();
@@ -136,12 +119,24 @@ public final class EasyChat extends JavaPlugin implements Runnable{
         return luckperms;
     }
 
-    public @NotNull EzChatConfig getPluginConfig() {
+    @Override
+    public @NotNull PluginConfig getConfig() {
         return config;
     }
 
-    public LocaleConfig getLocaleConfig() {
-        return localeConfig;
+    @Override
+    public void reloadConfig() {
+        config.reloadConfig();
+    }
+
+    @Override
+    public void saveConfig() {
+        config.saveConfig();
+    }
+
+    @Override
+    public void saveDefaultConfig() {
+        config.saveDefaultConfig();
     }
 
     @Override

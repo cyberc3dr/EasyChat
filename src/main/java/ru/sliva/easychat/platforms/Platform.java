@@ -10,8 +10,6 @@ public interface Platform extends Listener, CommandExecutor {
 
     void init(@NotNull EasyChat ezchat);
 
-    EasyChat getEzChat();
-
     void stop();
 
     void updatePlayerData(Player player);

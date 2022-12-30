@@ -2,12 +2,12 @@ package ru.sliva.easychat.platforms;
 
 import io.papermc.paper.chat.ChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.luckperms.api.model.user.User;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,9 +18,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import ru.sliva.easychat.EasyChat;
-import ru.sliva.easychat.config.Parameters;
-import ru.sliva.easychat.locale.Commands;
-import ru.sliva.easychat.locale.Messages;
+import ru.sliva.easychat.config.api.Commands;
+import ru.sliva.easychat.config.api.Messages;
+import ru.sliva.easychat.config.api.Parameters;
 import ru.sliva.easychat.text.TextUtil;
 
 import java.util.HashSet;
@@ -33,11 +33,6 @@ public final class PaperAdventurePlatform implements Platform{
     @Override
     public void init(@NotNull EasyChat easyChat) {
         this.easyChat = easyChat;
-    }
-
-    @Override
-    public EasyChat getEzChat() {
-        return easyChat;
     }
 
     @Override
@@ -58,17 +53,36 @@ public final class PaperAdventurePlatform implements Platform{
         Player p = event.getPlayer();
         updatePlayerData(p);
         if(Parameters.changePlayerMessages.getBoolean()) {
-            Component join = TextUtil.replaceLiteral(Messages.join.getComponent(), "{player}", p.displayName());
-            event.joinMessage(join);
+            if(!Parameters.removePlayerMessages.getBoolean()) {
+                Component join = TextUtil.replaceLiteral(
+                        TextUtil.ampersandSerializer.deserialize(
+                                PlaceholderAPI.setPlaceholders(p, Messages.join.getString())),
+                        "{player}", p.displayName()
+                );
+
+                event.joinMessage(join);
+            } else {
+                event.joinMessage(null);
+            }
         }
     }
 
     @EventHandler
     public void onQuit(@NotNull PlayerQuitEvent event) {
         if(Parameters.changePlayerMessages.getBoolean()) {
-            Player p = event.getPlayer();
-            Component quit = TextUtil.replaceLiteral(Messages.quit.getComponent(), "{player}", p.displayName());
-            event.quitMessage(quit);
+            if(!Parameters.removePlayerMessages.getBoolean()) {
+                Player p = event.getPlayer();
+
+                Component quit = TextUtil.replaceLiteral(
+                        TextUtil.ampersandSerializer.deserialize(
+                                PlaceholderAPI.setPlaceholders(p, Messages.quit.getString())),
+                        "{player}", p.displayName()
+                );
+
+                event.quitMessage(quit);
+            } else {
+                event.quitMessage(null);
+            }
         }
     }
 
@@ -91,8 +105,7 @@ public final class PaperAdventurePlatform implements Platform{
             } else {
                 Set<Audience> viewers = event.viewers();
                 for(Audience audience : new HashSet<>(viewers)) {
-                    if(audience instanceof Player) {
-                        Player player = (Player) audience;
+                    if(audience instanceof Player player) {
                         if(easyChat.outOfRange(p.getLocation(), player.getLocation())) {
                             viewers.remove(audience);
                         }
@@ -154,11 +167,14 @@ public final class PaperAdventurePlatform implements Platform{
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         if(args.length < 1) {
-            easyChat.getPluginConfig().reloadConfig();
-            easyChat.updateLocaleConfig();
-            sender.sendMessage(Commands.reload.getComponent());
+            easyChat.getConfig().reloadConfig();
+            sender.sendMessage(
+                    TextUtil.ampersandSerializer.deserialize(
+                            Commands.reload.getString()
+                    )
+            );
             return true;
         }
         return false;

@@ -1,11 +1,11 @@
 name: EasyChat
 version: '${project.version}'
 main: ru.sliva.easychat.EasyChat
-api-version: 1.13
+api-version: 1.19
 load: STARTUP
-depend: [LuckPerms]
+depend: [LuckPerms, PlaceholderAPI]
 authors: [ sliva_ru ]
-description: Eazy chat for servers.
+description: Easy chat for servers.
 website: https://github.com/Geo3gamer/EasyChat
 commands:
   easychat:

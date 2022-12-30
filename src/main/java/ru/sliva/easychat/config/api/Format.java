@@ -1,9 +1,9 @@
-package ru.sliva.easychat.config;
+package ru.sliva.easychat.config.api;
 
-import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import org.jetbrains.annotations.NotNull;
-import org.spongepowered.configurate.ConfigurationNode;
 import ru.sliva.easychat.EasyChat;
+import ru.sliva.easychat.config.PluginConfig;
 import ru.sliva.easychat.text.TextUtil;
 
 public enum Format {
@@ -12,17 +12,19 @@ public enum Format {
     localChat("local-chat"),
     format("format");
 
-    private final ConfigurationNode node;
+    private final PluginConfig config;
+    private final String key;
 
     Format(@NotNull String key) {
-        this.node = EasyChat.getInstance().getPluginConfig().getFormat().node(key);
+        this.config = EasyChat.getInstance().getConfig();
+        this.key = "format." + key;
     }
 
     public @NotNull String getString() {
-        return TextUtil.fromNullable(node.getString());
+        return config.getString(key);
     }
 
-    public @NotNull Component getComponent() {
+    public @NotNull TextComponent getComponent() {
         return TextUtil.ampersandSerializer.deserialize(getString());
     }
 }

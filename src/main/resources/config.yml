@@ -4,9 +4,12 @@ parameters:
   change-display-name: true
   # Should we change the player list name
   # or another plugin will change it
-  change-tab-list-name: false
+  change-tab-list-name: true
   # Should we change the join and quit messages
-  change-player-messages: false
+  change-player-messages: true
+  # Remove player messages completely
+  # change-player-messages should be true
+  remove-player-messages: true
   # Should the chat be local and global or not
   range-mode: true
   # Should we check only world in range mode
@@ -14,11 +17,17 @@ parameters:
   only-per-world: false
   # Range for range-mode chat
   range: 10000
-  # Locale (ru, en)
-  locale: en
 format:
   # Chat settings for range-mode
   global-chat: '&6[G] &r'
   local-chat: '&a[L] &r'
   # Chat format
   format: '&f{player} &8»&7 {message}'
+hover-events:
+  tell-message: '&fОтправить {player} &fсообщение'
+  copy-message: '&fСкопировать сообщение чата'
+messages:
+  join: '&f{player} &aприсоединился к игре.'
+  quit: '&f{player} &eпокинул игру.'
+commands:
+  reload: '&aКонфигурация перезагружена'
