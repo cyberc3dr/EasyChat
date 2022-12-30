@@ -98,14 +98,14 @@ public final class EasyChat extends JavaPlugin implements Runnable{
         // Source
         Component displayName = Component.empty().toBuilder()
                 .append(sourceDisplayName)
-                .hoverEvent(HoverEvent.showText(TextUtil.replaceLiteral(HoverEvents.tellMessage.getComponent(), "{player}", sourceDisplayName)))
+                .hoverEvent(HoverEvent.showText(TextUtil.insertPlaceholders(source, TextUtil.replaceLiteral(HoverEvents.tellMessage.getComponent(), "{player}", sourceDisplayName))))
                 .clickEvent(ClickEvent.suggestCommand("/tell " + source.getName() + " "))
                 .build();
 
         // Message
         Component chatMessage = Component.empty().toBuilder()
                 .append(message)
-                .hoverEvent(HoverEvent.showText(HoverEvents.copyMessage.getComponent()))
+                .hoverEvent(HoverEvent.showText(TextUtil.insertPlaceholders(source, HoverEvents.copyMessage.getComponent())))
                 .clickEvent(ClickEvent.copyToClipboard(PlainTextComponentSerializer.plainText().serialize(message)))
                 .build();
 

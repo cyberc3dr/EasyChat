@@ -1,7 +1,9 @@
 package ru.sliva.easychat.text;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.entity.Player;
 import org.intellij.lang.annotations.RegExp;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +37,12 @@ public final class TextUtil {
 
     public static boolean startsWith(@NotNull Component component, @NotNull String prefix) {
         return paragraphSerializer.serialize(component).startsWith(prefix);
+    }
+
+    public static @NotNull Component insertPlaceholders(@NotNull Player player, @NotNull Component message) {
+        return paragraphSerializer.deserialize(
+                PlaceholderAPI.setPlaceholders(player, paragraphSerializer.serialize(message))
+        );
     }
 
 }

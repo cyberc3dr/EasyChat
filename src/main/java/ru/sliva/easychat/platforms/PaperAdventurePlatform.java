@@ -90,11 +90,14 @@ public final class PaperAdventurePlatform implements Platform{
     public void onChat(@NotNull AsyncChatEvent event) {
         Player p = event.getPlayer();
 
-        Component message = event.message();
+        Component message = TextUtil.removeSpaces(
+                TextUtil.insertPlaceholders(p,
+                        event.message()
+                )
+        );
         if(p.hasPermission("easychat.color")) {
             message = TextUtil.color(message);
         }
-        message = TextUtil.removeSpaces(message);
 
         if(Parameters.rangeMode.getBoolean()) {
             boolean global = false;
