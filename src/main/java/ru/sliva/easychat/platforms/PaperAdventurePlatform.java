@@ -2,7 +2,6 @@ package ru.sliva.easychat.platforms;
 
 import io.papermc.paper.chat.ChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
-import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.luckperms.api.LuckPerms;
@@ -57,7 +56,7 @@ public final class PaperAdventurePlatform implements Platform {
             if (!Parameters.removePlayerMessages.getBoolean()) {
                 Component join = TextUtil.replaceLiteral(
                         TextUtil.ampersandSerializer.deserialize(
-                                PlaceholderAPI.setPlaceholders(p, Messages.join.getString())),
+                                Messages.join.getString()),
                         "{player}", p.displayName()
                 );
 
@@ -76,7 +75,7 @@ public final class PaperAdventurePlatform implements Platform {
 
                 Component quit = TextUtil.replaceLiteral(
                         TextUtil.ampersandSerializer.deserialize(
-                                PlaceholderAPI.setPlaceholders(p, Messages.quit.getString())),
+                                Messages.quit.getString()),
                         "{player}", p.displayName()
                 );
 

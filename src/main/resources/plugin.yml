@@ -3,7 +3,7 @@ version: '${project.version}'
 main: ru.sliva.easychat.EasyChat
 api-version: 1.16
 load: STARTUP
-depend: [LuckPerms, PlaceholderAPI]
+depend: [LuckPerms]
 authors: [ sliva_ru ]
 description: Easy chat for servers.
 website: https://github.com/Geo3gamer/EasyChat
@@ -12,6 +12,10 @@ commands:
     description: 'Reloads configuration'
     permission: 'easychat.reload'
     usage: '/easychat'
+  tell:
+    description: 'Sends a private message to player'
+    permission: 'easychat.tell'
+    usage: '/tell <player> <message>'
 permissions:
   easychat.color:
     description: 'Colors the chat message'
@@ -19,3 +23,6 @@ permissions:
   easychat.reload:
     description: 'Give access to reload command'
     default: 'op'
+  easychat.tell:
+    description: 'Give access to tell command'
+    default: 'not op'
