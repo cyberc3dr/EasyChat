@@ -12,10 +12,10 @@ commands:
     description: 'Reloads configuration'
     permission: 'easychat.reload'
     usage: '/easychat'
-  tell:
-    description: 'Sends a private message to player'
-    permission: 'easychat.tell'
-    usage: '/tell <player> <message>'
+#  tell:
+#    description: 'Sends a private message to player'
+#    permission: 'easychat.tell'
+#    usage: '/tell <player> <message>'
 permissions:
   easychat.color:
     description: 'Colors the chat message'
@@ -23,6 +23,6 @@ permissions:
   easychat.reload:
     description: 'Give access to reload command'
     default: 'op'
-  easychat.tell:
-    description: 'Give access to tell command'
-    default: 'not op'
+#  easychat.tell:
+#    description: 'Give access to tell command'
+#    default: 'not op'
