@@ -85,7 +85,7 @@ public final class EasyChat extends JavaPlugin implements Runnable {
         if (!Parameters.onlyPerWorld.getBoolean()) {
             return l.distanceSquared(ll) > Parameters.range.getInt();
         }
-        return true;
+        return false;
     }
 
     public @NotNull Component addChannel(@NotNull Component format, boolean global) {
