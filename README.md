@@ -1,5 +1,7 @@
+## TODO: rewrite to kotlin, migrate to gradle kts dsl
+
 # EasyChat
-The easiest chat plugin in the world. (LuckPerms)
+The simplest chat plugin in the world. (LuckPerms)
 
 ## How to install
 1. Download latest jar from Github Actions
